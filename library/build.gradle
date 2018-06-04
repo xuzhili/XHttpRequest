@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion global_compileSdkVersion
 
 
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 26
+        minSdkVersion global_minSdkVersion
+        targetSdkVersion global_targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -26,6 +26,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // okhttp
+    implementation "com.squareup.okhttp3:okhttp:$global_okhttpVersion"
+    // gson
+    implementation "com.google.code.gson:gson:$global_gsonVersion"
+    // rxjava
+    implementation "io.reactivex.rxjava2:rxjava:$global_rxjavaVersion"
 
     implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
     testImplementation 'junit:junit:4.12'
