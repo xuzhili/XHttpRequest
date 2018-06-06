@@ -3,8 +3,11 @@ package com.xuzhili.xhttprequest;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.xuzhili.xhttprequest.http.config.DefaultHttpConfig;
+import com.xuzhili.xhttprequest.http.config.HttpConfig;
 import com.xuzhili.xhttprequest.interceptor.IRequestInterceptor;
 import com.xuzhili.xhttprequest.interceptor.IResponseInterceptor;
+import com.xuzhili.xhttprequest.interceptor.IRequestRetryInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +27,15 @@ public final class XHttpManager {
 
     private List<IRequestInterceptor> iRequestInterceptors;
     private List<IResponseInterceptor> iResponseInterceptors;
+    private List<IRequestRetryInterceptor> iRequestRetryInterceptors;
+    private HttpConfig httpConfig;
+    private boolean isDebug;
 
-    public static XHttpManager getxHttpManager() {
+    public static XHttpManager getXHttpManager() {
         return xHttpManager;
     }
 
-    private XHttpManager addRequestInterceptor(@NonNull IRequestInterceptor iRequestInterceptor) {
+    public XHttpManager addRequestInterceptor(@NonNull IRequestInterceptor iRequestInterceptor) {
         if (iRequestInterceptors == null) {
             iRequestInterceptors = new ArrayList<>();
         }
@@ -37,7 +43,7 @@ public final class XHttpManager {
         return this;
     }
 
-    private XHttpManager addResponseInterceptor(@NonNull IResponseInterceptor iResponseInterceptor) {
+    public XHttpManager addResponseInterceptor(@NonNull IResponseInterceptor iResponseInterceptor) {
         if (iResponseInterceptors == null) {
             iResponseInterceptors = new ArrayList<>();
         }
@@ -45,13 +51,48 @@ public final class XHttpManager {
         return this;
     }
 
+    public XHttpManager addRequestRetryInterceptor(@NonNull IRequestRetryInterceptor iRequestRetryInterceptor) {
+        if (iRequestRetryInterceptors == null) {
+            iRequestRetryInterceptors = new ArrayList<>();
+        }
+        iRequestRetryInterceptors.add(iRequestRetryInterceptor);
+        return this;
+    }
+
     @Nullable
-    public List<IRequestInterceptor> getiRequestInterceptors() {
+    public List<IRequestRetryInterceptor> getIRequestRetryInterceptors() {
+        return iRequestRetryInterceptors;
+    }
+
+    @Nullable
+    public List<IRequestInterceptor> getIRequestInterceptors() {
         return iRequestInterceptors;
     }
 
     @Nullable
-    public List<IResponseInterceptor> getiResponseInterceptors() {
+    public List<IResponseInterceptor> getIResponseInterceptors() {
         return iResponseInterceptors;
+    }
+
+    @NonNull
+    public HttpConfig getHttpConfig() {
+        if (httpConfig == null){
+            httpConfig = new DefaultHttpConfig();
+        }
+        return httpConfig;
+    }
+
+    public XHttpManager setHttpConfig(HttpConfig httpConfig) {
+        this.httpConfig = httpConfig;
+        return this;
+    }
+
+    public XHttpManager setDebug(boolean debug) {
+        isDebug = debug;
+        return this;
+    }
+
+    public boolean isDebug() {
+        return isDebug;
     }
 }

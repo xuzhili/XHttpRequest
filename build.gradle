@@ -27,6 +27,7 @@ allprojects {
         global_targetSdkVersion = 26
         global_gsonVersion = '2.8.0'
         global_rxjavaVersion = '2.1.2'
+        global_rxandroidVersion = '2.0.2'
         global_okhttpVersion = '3.4.1'
     }
 }
